@@ -7,10 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float horizontalMovementSpeed = 5f;
 
-    [Header("Jump Settings")]
-    [SerializeField] float jumpHeight = 5f;
-    [SerializeField] float jumpDistance = 5f;
-    [SerializeField] float timeToJumpPeak = 5f;
+    [SerializeField] float jumpSpeed = 5f;
     
     Vector2 rawInput;
 
@@ -49,25 +46,27 @@ public class PlayerMovement : MonoBehaviour
     void OnJump(InputValue value)
     {
         //float jumpDistanceToPeak = jumpDistance / 2;
-        float jumpGravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpPeak, 2);
-        float jumpSpeed = Mathf.Abs(jumpGravity) * timeToJumpPeak;
-        float yPosition = rb.position.y;
-        float xPosition = rb.position.x;
-        float yVelocity = rb.velocity.y;
+        //float jumpGravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpPeak, 2);
+        //float jumpSpeed = Mathf.Abs(jumpGravity) * timeToJumpPeak;
+        //float yPosition = rb.position.y;
+        //float xPosition = rb.position.x;
+        //float yVelocity = rb.velocity.y;
         //step updates
-        Vector2 stepMovement = (new Vector2(rb.velocity.x, jumpSpeed) + Vector2.up * jumpGravity * Time.deltaTime * 0.5f) * Time.deltaTime;
-        transform.Translate(stepMovement);
+        //Vector2 stepMovement = (new Vector2(rb.velocity.x, jumpSpeed) + Vector2.up * jumpGravity * Time.deltaTime * 0.5f) * Time.deltaTime;
+        //transform.Translate(stepMovement);
         //xPosition = (horizontalMovementSpeed * Time.deltaTime);
         //rb.position += new Vector2(xPosition, yPosition);
         //rb.velocity += new Vector2(0f, jumpGravity * Time.deltaTime);
-        yVelocity += jumpGravity * Time.deltaTime;
+        //yVelocity += jumpGravity * Time.deltaTime;
         if (value.isPressed)
             if (!myCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
                 return;
             else
             {
                 //yPosition = (jumpSpeed * Time.deltaTime) + (0.5f * jumpGravity * Time.deltaTime * Time.deltaTime);
-                yVelocity = jumpSpeed;
+                //yVelocity = jumpSpeed;
+                Vector2 jump = new Vector2(0, jumpSpeed);
+                rb.AddForce(jump, ForceMode2D.Impulse);
             }
     }
     void FlipSprite()
