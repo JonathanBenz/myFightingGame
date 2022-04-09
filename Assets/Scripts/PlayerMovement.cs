@@ -11,8 +11,11 @@ public class PlayerMovement : MonoBehaviour
     
     Vector2 rawInput;
 
+    public bool attackButtonPressed;
+
     Collider2D myCollider;
     Rigidbody2D rb;
+    
 
     private void Awake()
     {
@@ -74,5 +77,13 @@ public class PlayerMovement : MonoBehaviour
         bool playerHasHorizontalMovement = Mathf.Abs(rb.velocity.x) > Mathf.Epsilon;
         if(playerHasHorizontalMovement)
             transform.localScale = new Vector2(Mathf.Sign(rb.velocity.x), 1f);
+    }
+
+    void OnAttack(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            attackButtonPressed = true;
+        }
     }
 }

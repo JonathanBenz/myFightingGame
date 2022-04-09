@@ -9,19 +9,22 @@ public class Attack : MonoBehaviour
     bool hasAttacked;
     [SerializeField] float timeUntilNextAttack = 3f;
     float timer = 0f;
-    BoxCollider2D boxCollider2D;
+    CapsuleCollider2D myCapsuleCollider2D;
+    PlayerMovement myPlayerMovement;
 
     private void Awake()
     {
-        boxCollider2D = GetComponent<BoxCollider2D>();
+        myCapsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        myPlayerMovement = GetComponentInParent<PlayerMovement>();
     }
     private void Start()
     {
-        boxCollider2D.enabled = !boxCollider2D.enabled;
+        myCapsuleCollider2D.enabled = !myCapsuleCollider2D.enabled;
     }
     private void Update()
     {
         timer += Time.deltaTime;
+        ActivateAttack();
         if (timer < timeUntilNextAttack)
         {
             canAttack = false;
@@ -38,22 +41,32 @@ public class Attack : MonoBehaviour
     }
     IEnumerator PerformAttack()
     {
-        boxCollider2D.enabled = !boxCollider2D.enabled;
-        yield return new WaitForSeconds(.3f);
-        boxCollider2D.enabled = !boxCollider2D.enabled;
+        myCapsuleCollider2D.enabled = !myCapsuleCollider2D.enabled;
+        yield return new WaitForSeconds(.001f);
+        myCapsuleCollider2D.enabled = !myCapsuleCollider2D.enabled;
         hasAttacked = true;
+        myPlayerMovement.attackButtonPressed = false;
     }
-    void OnAttack(InputValue value)
+    void ActivateAttack()
     {
-        if (value.isPressed)
+        if (myPlayerMovement.attackButtonPressed)
         {
             if(canAttack)
                 StartCoroutine(PerformAttack());
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    /* private void OnTriggerEnter2D(Collider2D collision) //Idk why I initially made the attack a trigger point
     {
         if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Health>().TakeDamage();
+        }
+    } */
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<Health>().TakeDamage();
         }
