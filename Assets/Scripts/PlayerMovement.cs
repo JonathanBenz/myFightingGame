@@ -6,8 +6,11 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float horizontalMovementSpeed = 5f;
-
+    float unalteredMovementSpeed;
+    float alteredMovementSpeed;
     [SerializeField] float jumpSpeed = 5f;
+
+    [SerializeField] float movementPenalty = 0.5f;
     
     Vector2 rawInput;
 
@@ -22,12 +25,12 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<Collider2D>();
     }
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
-    }
+        unalteredMovementSpeed = horizontalMovementSpeed;
+        alteredMovementSpeed = horizontalMovementSpeed * (1 - movementPenalty);
 
+    }
     private void Update()
     {
         Move();
@@ -35,18 +38,22 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    void OnMove(InputValue value)
+    public void Move(InputAction.CallbackContext value)
     {
-        rawInput = value.Get<Vector2>();
+        rawInput = value.ReadValue<Vector2>();
     }
 
     void Move()
-    {       
+    {
+        if (GetComponent<Block>().isBlocking)
+            horizontalMovementSpeed = alteredMovementSpeed;
+        else
+            horizontalMovementSpeed = unalteredMovementSpeed;
         Vector2 delta = new Vector2(rawInput.x * horizontalMovementSpeed, rb.velocity.y);
         rb.velocity += delta * Time.deltaTime;
     }
 
-    void OnJump(InputValue value)
+    public void Jump(InputAction.CallbackContext value)
     {
         //float jumpDistanceToPeak = jumpDistance / 2;
         //float jumpGravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpPeak, 2);
@@ -61,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         //rb.position += new Vector2(xPosition, yPosition);
         //rb.velocity += new Vector2(0f, jumpGravity * Time.deltaTime);
         //yVelocity += jumpGravity * Time.deltaTime;
-        if (value.isPressed)
+        if (value.performed)
             if (!myCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
                 return;
             else
@@ -79,9 +86,9 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector2(Mathf.Sign(rb.velocity.x), 1f);
     }
 
-    void OnAttack(InputValue value)
+    public void Attack(InputAction.CallbackContext value)
     {
-        if (value.isPressed)
+        if (value.performed)
         {
             attackButtonPressed = true;
         }

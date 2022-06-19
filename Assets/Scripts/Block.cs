@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Block : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool isBlocking;
 
-    // Update is called once per frame
-    void Update()
+    public void Blocking(InputAction.CallbackContext value)
     {
-        
+        if (value.performed)
+            isBlocking = true;
+        if (value.canceled)
+            isBlocking = false;
     }
 }

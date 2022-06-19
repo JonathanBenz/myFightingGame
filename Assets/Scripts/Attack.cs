@@ -7,7 +7,7 @@ public class Attack : MonoBehaviour
 {
     [SerializeField] bool canAttack;
     bool hasAttacked;
-    [SerializeField] float timeUntilNextAttack = 3f;
+    [SerializeField] float timeUntilNextAttack = 1f;
     float timer = 0f;
     CapsuleCollider2D myCapsuleCollider2D;
     PlayerMovement myPlayerMovement;
@@ -24,6 +24,8 @@ public class Attack : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
+        if (GetComponentInParent<Block>().isBlocking)
+            canAttack = false;
         ActivateAttack();
         if (timer < timeUntilNextAttack)
         {
@@ -42,7 +44,7 @@ public class Attack : MonoBehaviour
     IEnumerator PerformAttack()
     {
         myCapsuleCollider2D.enabled = !myCapsuleCollider2D.enabled;
-        yield return new WaitForSeconds(.001f);
+        yield return new WaitForSeconds(.01f);
         myCapsuleCollider2D.enabled = !myCapsuleCollider2D.enabled;
         hasAttacked = true;
         myPlayerMovement.attackButtonPressed = false;
@@ -68,7 +70,10 @@ public class Attack : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Health>().TakeDamage();
+            if (collision.gameObject.GetComponent<Block>().isBlocking)
+                collision.gameObject.GetComponent<Health>().TakeMitigatedDamage();
+            else
+                collision.gameObject.GetComponent<Health>().TakeDamage();
         }
     }
 }
