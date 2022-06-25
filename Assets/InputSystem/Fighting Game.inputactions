@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "95cf1ac7-08aa-4644-97f5-33c0029f72d6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -344,6 +353,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Blocking",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5d64bdb-785f-4b24-ba9c-7047c3e65335",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "714628ef-685b-4256-8516-d16f706d8f23",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
