@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 5f;
 
     [SerializeField] float movementPenalty = 0.5f;
+
+    [SerializeField] SpriteRenderer attackSprite;
     
     Vector2 rawInput;
 
@@ -36,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
         Move();
         FlipSprite();
     }
-
 
     public void Move(InputAction.CallbackContext value)
     {
@@ -91,6 +92,9 @@ public class PlayerMovement : MonoBehaviour
         if (value.performed)
         {
             attackButtonPressed = true;
+            attackSprite.gameObject.SetActive(true);
         }
+        if (value.canceled)
+            attackSprite.gameObject.SetActive(false);
     }
 }
