@@ -6,8 +6,9 @@ using UnityEngine.InputSystem;
 public class Attack : MonoBehaviour
 {
     [SerializeField] bool canAttack;
+    [SerializeField] SpriteRenderer attackSprite;
     bool hasAttacked;
-    [SerializeField] float timeUntilNextAttack = 1f;
+    public float timeUntilNextAttack = 1f;
     float timer = 0f;
     CapsuleCollider2D myCapsuleCollider2D;
     PlayerMovement myPlayerMovement;
@@ -21,7 +22,7 @@ public class Attack : MonoBehaviour
     {
         myCapsuleCollider2D.enabled = !myCapsuleCollider2D.enabled;
     }
-    private void Update()
+    private void FixedUpdate()
     {
         timer += Time.deltaTime;
         if (GetComponentInParent<Block>().isBlocking)
@@ -54,7 +55,10 @@ public class Attack : MonoBehaviour
         if (myPlayerMovement.attackButtonPressed)
         {
             if(canAttack)
+            {
+                StartCoroutine(DisplayAttackSprite());
                 StartCoroutine(PerformAttack());
+            }               
         }
     }
 
@@ -75,5 +79,12 @@ public class Attack : MonoBehaviour
             else
                 collision.gameObject.GetComponent<Health>().TakeDamage();
         }
+    }
+
+    IEnumerator DisplayAttackSprite()
+    {
+        attackSprite.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        attackSprite.gameObject.SetActive(false);
     }
 }

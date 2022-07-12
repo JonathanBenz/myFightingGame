@@ -192,13 +192,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5436467103557337371}
-  m_LocalRotation: {x: 0, y: 0, z: -0.5735764, w: 0.8191521}
+  m_LocalRotation: {x: -0, y: 0, z: -0.5735764, w: 0.8191521}
   m_LocalPosition: {x: 0.97, y: 0.25, z: 0}
-  m_LocalScale: {x: 0.22, y: 0.22, z: 1}
+  m_LocalScale: {x: 0.22000001, y: 0.22000001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8704168915053786320}
-  m_RootOrder: 0
+  m_Father: {fileID: 8704168914769620319}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -70}
 --- !u!212 &5903780012393183900
 SpriteRenderer:
@@ -290,6 +290,7 @@ Transform:
   - {fileID: 8704168915053786320}
   - {fileID: 6307652500578657563}
   - {fileID: 4171054667736670630}
+  - {fileID: 2795934838628053117}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -491,7 +492,6 @@ MonoBehaviour:
   horizontalMovementSpeed: 35
   jumpSpeed: 7.25
   movementPenalty: 0.5
-  attackSprite: {fileID: 0}
   attackButtonPressed: 0
 --- !u!114 &8704168914769620315
 MonoBehaviour:
@@ -507,7 +507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   dmgAmount: 10
-  dmgMitigated: 0.8
+  dmgMitigated: 0.5
 --- !u!114 &8704168914769620314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,8 +564,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2795934838628053117}
+  m_Children: []
   m_Father: {fileID: 8704168914769620319}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -578,7 +577,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 8704168915053786321}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9a7bb1bdf1e622c4aa9560ac552484e8, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -598,4 +597,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAttack: 0
-  timeUntilNextAttack: 1
+  attackSprite: {fileID: 5903780012393183900}
+  timeUntilNextAttack: 2

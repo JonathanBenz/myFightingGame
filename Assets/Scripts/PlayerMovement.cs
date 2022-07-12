@@ -11,8 +11,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 5f;
 
     [SerializeField] float movementPenalty = 0.5f;
-
-    [SerializeField] SpriteRenderer attackSprite;
     
     Vector2 rawInput;
 
@@ -20,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
     Collider2D myCollider;
     Rigidbody2D rb;
-    
 
     private void Awake()
     {
@@ -72,6 +69,10 @@ public class PlayerMovement : MonoBehaviour
         if (value.performed)
             if (!myCollider.IsTouchingLayers(LayerMask.GetMask("Ground")))
                 return;
+            else if (GetComponent<Block>().isBlocking)
+            {
+                return;
+            }
             else
             {
                 //yPosition = (jumpSpeed * Time.deltaTime) + (0.5f * jumpGravity * Time.deltaTime * Time.deltaTime);
@@ -92,9 +93,6 @@ public class PlayerMovement : MonoBehaviour
         if (value.performed)
         {
             attackButtonPressed = true;
-            attackSprite.gameObject.SetActive(true);
         }
-        if (value.canceled)
-            attackSprite.gameObject.SetActive(false);
     }
 }
